@@ -324,7 +324,10 @@
 
             require(["docson"], function(docson) {
               docson.templateBaseUrl = "docson/templates";
-              docson.doc($docson, $scope.responseInfo[code][$scope.responseInfo[code].currentType].schema);
+
+              var schema = code ? $scope.responseInfo[code][$scope.responseInfo[code].currentType].schema : $scope.methodInfo.body[$scope.currentBodySelected].schema
+
+              docson.doc($docson, schema, undefined, "/sphere/schemas/");
               //$docson.velocity('slideDown');
             })
           } else {
@@ -5179,7 +5182,7 @@ angular.module('ramlConsoleApp').run(['$templateCache', function($templateCache)
     "      <section class=\"raml-console-resource-section raml-console-scheme-settings\" ng-if=\"documentationSchemeSelected.settings\">\n" +
     "        <h4 class=\"raml-console-resource-heading-a\">Settings</h4>\n" +
     "\n" +
-    "        <div class=\"raml-console-resource-param\" ng-repeat=\"(key, config) in documentationSchemeSelected.settings\">\n" +
+    "        <div class=\"raml-console-resource-param foo-{{key}}\" ng-repeat=\"(key, config) in documentationSchemeSelected.settings\">\n" +
     "          <h4 class=\"raml-console-resource-param-heading\">{{key}}</h4>\n" +
     "          <p>{{schemaSettingsDocumentation(config)}}</p>\n" +
     "        </div>\n" +

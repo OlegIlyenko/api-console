@@ -13,7 +13,7 @@ body, .raml-console-documentation-schemes p, .raml-console-resource-panel-primar
 .docson .box {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  float: none !important;
+  /*float: none !important;*/
 }
 
 .docson .signature-description {
@@ -22,4 +22,15 @@ body, .raml-console-documentation-schemes p, .raml-console-resource-panel-primar
 
 code {
   font-family: "Source Code Pro";
+}
+
+.foo-authorizationUri {
+  display: none;
+}
+
+.raml-console-resource-param p {
+  padding-bottom: 10px;
+}
+.raml-console-resource-param pre {
+  margin-bottom: 0;
 }

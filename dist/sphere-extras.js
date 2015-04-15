@@ -23,9 +23,13 @@ jQuery(function ($) {
 
     var restoreFields = function (prefix, fields) {
       fields.forEach(function (f) {
-        var input = $('input[name=' + f + ']')
-        input.val(localStorage.getItem(prefix + f))
-        input.trigger('input')
+        var val = localStorage.getItem(prefix + f)
+
+        if (val && val != '') {
+          var input = $('input[name=' + f + ']')
+          input.val(val)
+          input.trigger('input')
+        }
       })
     };
 

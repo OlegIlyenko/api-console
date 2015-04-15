@@ -40,11 +40,29 @@ securitySchemes:
           - "manage_customers:{projectKey}"
           - "view_customers:{projectKey}"
 securedBy: [ oauth_2_0]
+traits: !include traits.raml
 mediaType: application/json
-schemas:
-  - Project: !include schemas/project.schema.json
+resourceTypes:
+  - base:
+      get?:
+        responses:
+          400: !include 400-error.raml
+          500: !include 500-error.raml
+          503: !include 503-error.raml
+      post?:
+        responses:
+          400: !include 400-error.raml
+          500: !include 500-error.raml
+          503: !include 503-error.raml
+      delete?:
+        responses:
+          400: !include 400-error.raml
+          500: !include 500-error.raml
+          503: !include 503-error.raml
 /{projectKey}:
-  displayName: The Project endpoint is used to retrieve certain information from a project.
+  type: base
+  displayName: Project
+  description: The Project endpoint is used to retrieve certain information from a project.
   get:
     description: The Endpoint is responding a limited set of information about settings and configuration of the project.
     securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}"]}]
@@ -53,17 +71,5 @@ schemas:
         body:
           application/json:
             example: !include examples/project.example.json
-            schema: Project
-  /categories:
-    displayName: Categories
-    description: Categories endpoint
-    get:
-      description: Get all categories
-      securedBy: [oauth_2_0: {scopes: ["view_products:{projectKey}"]}]
-      responses:
-        200:
-          description: TODO referenz auf ein paged query result von Category objekten
-          body:
-            application/json:
-              # TODO reicht das als referenz auf ein oben definiertes Schema?
-              schema: Category
+            schema: !include schemas/project.schema.json
+  /categories: !include categories.raml
