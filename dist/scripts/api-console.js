@@ -3925,7 +3925,7 @@ RAML.Inspector = (function() {
       });
 
       // Make the request with the body.
-      xhr.send(options.body);
+      xhr.send(options.body ? options.body : options.data);
     };
   } else {
     var url   = require('url');
