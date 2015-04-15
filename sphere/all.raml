@@ -2,29 +2,30 @@
 ---
 title: SPHERE.IO API
 baseUri: https://api.sphere.io
+version: v1
 securitySchemes:
   - oauth_2_0:
       description: |
-        OAuth2 is a protocol that lets external apps request authorization to private
-        details in a user's SPHERE.IO account without getting their password. This is
-        preferred over Basic Authentication because tokens can be limited to specific
-        types of data, and can be revoked by users at any time.
+        HTTP API authorization uses <a href="http://tools.ietf.org/html/rfc6750" target="_blank">OAuth2</a>.
+
+        Clients must obtain an access token from the auth service using one of
+        the authorization flows described below, before they are able to make authorized requests
+        to other SPHERE.IO services. On successful completion of an authorization flow,
+        a client will be given an `access_token`, which they need to include in requests
+        to authorized service endpoints via the HTTP `Authorization` header like this:
       type: OAuth 2.0
       describedBy:
         headers:
           Authorization:
             description: |
-              Used to send a valid OAuth 2 access token. Do not use together with
-              the "access_token" query string parameter.
-            type: string
-        queryParameters:
-          access_token:
-            description: |
-              Used to send a valid OAuth 2 access token. Do not use together with
-              the "Authorization" header
+              On successful completion of an authorization flow,
+              a client will be given an `access_token`, which they need to include in requests
+              to authorized service endpoints via the HTTP `Authorization` header like this:
+
+                  Authorization: Bearer {access_token}
             type: string
         responses:
-          404:
+          401:
             description: Unauthorized
       settings:
         authorizationUri: https://auth.sphere.io/oauth/token
@@ -40,13 +41,25 @@ securitySchemes:
           - "view_customers:{projectKey}"
 securedBy: [ oauth_2_0]
 mediaType: application/json
-
+schemas:
+  - Project: !include schemas/project.schema.json
 /{projectKey}:
+  displayName: The Project endpoint is used to retrieve certain information from a project.
+  get:
+    description: The Endpoint is responding a limited set of information about settings and configuration of the project.
+    securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}"]}]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/project.example.json
+            schema: Project
   /categories:
     displayName: Categories
     description: Categories endpoint
     get:
       description: Get all categories
+      securedBy: [oauth_2_0: {scopes: ["view_products:{projectKey}"]}]
       responses:
         200:
           description: TODO referenz auf ein paged query result von Category objekten

@@ -17,6 +17,7 @@
     'RAML.Directives',
     'RAML.Services',
     'RAML.Security',
+    'mohsen1.json-schema-view',
     'hc.marked',
     'ui.codemirror',
     'hljs'
@@ -5260,6 +5261,7 @@ angular.module('ramlConsoleApp').run(['$templateCache', function($templateCache)
     "\n" +
     "          <div class=\"raml-console-schema-container\" ng-if=\"responseInfo[code][responseInfo[code].currentType].schema\">\n" +
     "            <p><button ng-click=\"showSchema($event)\" class=\"raml-console-resource-btn\">Show Schema</button></p>\n" +
+    //"            <json-schema-view schema=\"responseInfo[code][responseInfo[code].currentType].schema\" open=\"2\" class=\"ng-isolate-scope\"></json-schema-view>\n" +
     "            <pre class=\"raml-console-resource-pre raml-console-resource-pre-toggle\"><code class=\"raml-console-hljs\" hljs source=\"getBeatifiedExample(responseInfo[code][responseInfo[code].currentType].schema)\"></code></pre>\n" +
     "          </div>\n" +
     "        </div>\n" +
