@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic);
+@import url(http://fonts.googleapis.com/css?family=Armata);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro);
+
+body, .raml-console-documentation-schemes p, .raml-console-resource-panel-primary p, .docson, .docson .property-name, .docson span {
+  font-family: "Armata", sans-serif !important;
+}
+
+.raml-console-documentation-schemes p {
+  font-size: 15px;
+}
+
+.docson .box {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  float: none !important;
+}
+
+.docson .signature-description {
+  color: rgb(186, 154, 62) !important;
+}

@@ -312,27 +312,27 @@
           var $this   = jQuery($event.currentTarget);
           var $panel  = $this.closest('.raml-console-schema-container');
           var $schema = $panel.find('.raml-console-resource-pre-toggle');
-          var $docson = $panel.find('.docson-schena-viz');
+          var $docsonExisting = $panel.find('.docson-schema-viz');
 
           $this.toggleClass('raml-console-is-active');
 
-          if (!$schema.hasClass('raml-console-is-active')) {
+          if ($docsonExisting.size() == 0) {
             $this.text('Hide Schema');
-            //$schema
-            //  .addClass('raml-console-is-active')
-            //  .velocity('slideDown');
 
-            var code = $docson.data('code')
+            var $docson = jQuery("<div class='docson-schema-viz'></div>").insertBefore($schema)
+            var code = $schema.data('code')
 
             require(["docson"], function(docson) {
               docson.templateBaseUrl = "docson/templates";
               docson.doc($docson, $scope.responseInfo[code][$scope.responseInfo[code].currentType].schema);
+              //$docson.velocity('slideDown');
             })
           } else {
             $this.text('Show Schema');
-            $schema
-              .removeClass('raml-console-is-active')
-              .velocity('slideUp');
+
+            $docsonExisting.velocity('slideUp');
+            $docsonExisting.remove()
+
           }
         };
       }
@@ -5268,9 +5268,7 @@ angular.module('ramlConsoleApp').run(['$templateCache', function($templateCache)
     "\n" +
     "          <div class=\"raml-console-schema-container\" ng-if=\"responseInfo[code][responseInfo[code].currentType].schema\">\n" +
     "            <p><button ng-click=\"showSchema($event)\" class=\"raml-console-resource-btn\">Show Schema</button></p>\n" +
-    //"            <json-schema-view schema=\"responseInfo[code][responseInfo[code].currentType].schema\" open=\"2\" class=\"ng-isolate-scope\"></json-schema-view>\n" +
-    "            <div class='docson-schena-viz' data-code=\"{{code}}\"></div>\n" +
-    "            <pre class=\"raml-console-resource-pre raml-console-resource-pre-toggle\"><code class=\"raml-console-hljs\" hljs source=\"getBeatifiedExample(responseInfo[code][responseInfo[code].currentType].schema)\"></code></pre>\n" +
+    "            <pre class=\"raml-console-resource-pre raml-console-resource-pre-toggle\" data-code=\"{{code}}\"><code class=\"raml-console-hljs\" hljs source=\"getBeatifiedExample(responseInfo[code][responseInfo[code].currentType].schema)\"></code></pre>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </section>\n" +
