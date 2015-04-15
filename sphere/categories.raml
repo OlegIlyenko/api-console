@@ -41,3 +41,16 @@ post:
           application/json:
             example: !include examples/category.example.json
             schema: !include schemas/category.schema.json
+
+  delete:
+    description: Delete a Category
+    is:
+      - versioned
+      - conflicting
+    securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}", "manage_products:{projectKey}"]}]
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/category.example.json
+            schema: !include schemas/category.schema.json

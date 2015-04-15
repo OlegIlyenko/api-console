@@ -99,4 +99,9 @@
           application/json:
             example: !include examples/error.example.json
             schema: !include schemas/error.schema.json
-
+- versioned:
+    queryParameters:
+      version:
+        type: number
+        description: Last seen version of the resource
+        required: true

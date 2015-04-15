@@ -48,6 +48,7 @@ resourceTypes:
         responses:
           200?: !include deprecation.raml
           400: !include 400-error.raml
+          404: !include 404-error.raml
           500: !include 500-error.raml
           503: !include 503-error.raml
       post?:
@@ -55,12 +56,14 @@ resourceTypes:
           200?: !include deprecation.raml
           201?: !include deprecation.raml
           400: !include 400-error.raml
+          404: !include 404-error.raml
           500: !include 500-error.raml
           503: !include 503-error.raml
       delete?:
         responses:
           200?: !include deprecation.raml
           400: !include 400-error.raml
+          404: !include 404-error.raml
           500: !include 500-error.raml
           503: !include 503-error.raml
 /{projectKey}:
