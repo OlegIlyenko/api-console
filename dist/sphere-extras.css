@@ -19,3 +19,7 @@ body, .raml-console-documentation-schemes p, .raml-console-resource-panel-primar
 .docson .signature-description {
   color: rgb(186, 154, 62) !important;
 }
+
+code {
+  font-family: "Source Code Pro";
+}
