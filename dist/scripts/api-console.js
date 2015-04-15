@@ -17,7 +17,6 @@
     'RAML.Directives',
     'RAML.Services',
     'RAML.Security',
-    'mohsen1.json-schema-view',
     'hc.marked',
     'ui.codemirror',
     'hljs'
@@ -313,14 +312,22 @@
           var $this   = jQuery($event.currentTarget);
           var $panel  = $this.closest('.raml-console-schema-container');
           var $schema = $panel.find('.raml-console-resource-pre-toggle');
+          var $docson = $panel.find('.docson-schena-viz');
 
           $this.toggleClass('raml-console-is-active');
 
           if (!$schema.hasClass('raml-console-is-active')) {
             $this.text('Hide Schema');
-            $schema
-              .addClass('raml-console-is-active')
-              .velocity('slideDown');
+            //$schema
+            //  .addClass('raml-console-is-active')
+            //  .velocity('slideDown');
+
+            var code = $docson.data('code')
+
+            require(["docson"], function(docson) {
+              docson.templateBaseUrl = "docson/templates";
+              docson.doc($docson, $scope.responseInfo[code][$scope.responseInfo[code].currentType].schema);
+            })
           } else {
             $this.text('Show Schema');
             $schema
@@ -5262,6 +5269,7 @@ angular.module('ramlConsoleApp').run(['$templateCache', function($templateCache)
     "          <div class=\"raml-console-schema-container\" ng-if=\"responseInfo[code][responseInfo[code].currentType].schema\">\n" +
     "            <p><button ng-click=\"showSchema($event)\" class=\"raml-console-resource-btn\">Show Schema</button></p>\n" +
     //"            <json-schema-view schema=\"responseInfo[code][responseInfo[code].currentType].schema\" open=\"2\" class=\"ng-isolate-scope\"></json-schema-view>\n" +
+    "            <div class='docson-schena-viz' data-code=\"{{code}}\"></div>\n" +
     "            <pre class=\"raml-console-resource-pre raml-console-resource-pre-toggle\"><code class=\"raml-console-hljs\" hljs source=\"getBeatifiedExample(responseInfo[code][responseInfo[code].currentType].schema)\"></code></pre>\n" +
     "          </div>\n" +
     "        </div>\n" +

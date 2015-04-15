@@ -6,11 +6,11 @@
   <title>API Console</title>
   <link href="styles/api-console-light-theme.css" rel="stylesheet" class="theme">
   <link href="json-schema-view.min.css" rel="stylesheet" class="theme">
+  <link href="docson/css/docson.css" rel="stylesheet" class="theme">
 </head>
 <body ng-app="ramlConsoleApp" ng-cloak class="raml-console-body">
   <raml-initializer></raml-initializer>
   <script src="scripts/api-console-vendor.js"></script>
-  <script src="json-schema-view.js"></script>
   <script src="scripts/api-console.js"></script>
   <script>
     $.noConflict();
@@ -19,5 +19,10 @@
   <!-- extras -->
   <script src="jquery.livequery.min.js"></script>
   <script src="sphere-extras.js"></script>
+
+  <script src="require.js"></script>
+  <script charset="utf-8">
+    require.config({ baseUrl: "docson"});
+  </script>
 </body>
 </html>
