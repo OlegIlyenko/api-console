@@ -27,7 +27,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"changeName\""
+              "enum": ["changeName"]
             },
             "name": {"$ref": "localized-string.schema.json"}
           }
@@ -40,7 +40,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"changeSlug\""
+              "enum": ["changeSlug"]
             },
             "slug": {"$ref": "localized-string-slug.schema.json"}
           }
@@ -53,7 +53,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"setDescription\""
+              "enum": ["setDescription"]
             },
             "description": {"$ref": "localized-string.schema.json"}
           }
@@ -67,7 +67,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"changeParent\""
+              "enum": ["changeParent"]
             },
             "parent": {"$ref": "reference-category.schema.json"}
           }
@@ -80,7 +80,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"changeOrderHint\""
+              "enum": ["changeOrderHint"]
             },
             "orderHint": {
               "type": "string",
@@ -98,7 +98,7 @@
           "properties": {
             "action": {
               "type": "string",
-              "format": "\"setExternalId\""
+              "enum": ["setExternalId"]
             },
             "externalId": {
               "type": "string",

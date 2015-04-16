@@ -9,7 +9,7 @@
     "typeId ": {
       "type": "string",
       "description": "The typeId designates the type of the referenced resource",
-      "format": "\"category\""
+      "enum": ["category"]
     },
     "id": {
       "type": "string",
