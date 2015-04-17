@@ -1,4 +1,6 @@
 jQuery(function ($) {
+  window.History = {options: {html4Mode: true}};
+
   var watchedFields = ["projectKey", "clientId", "clientSecret"];
   var prefix = "credentials-";
 
@@ -61,4 +63,39 @@ jQuery(function ($) {
     rememberFields(prefix, watchedFields)
     restoreScopes();
   });
+
+  var hash = window.location.hash.replace(/#+/, "").replace(/^request_/, "")
+
+  var waitForElem = function (id, timeout, fn, start) {
+    var currTime = new Date().getTime()
+
+    if (start && (currTime - start) > timeout) return
+
+    var elem = document.getElementById(id)
+
+    if (!elem) {
+      setTimeout(function () {waitForElem(id, timeout, fn, start ? start : currTime)}, 10)
+    } else {
+      fn(elem)
+    }
+  }
+
+  if (hash) {
+    var methodParts = hash.split("___")
+
+    if (methodParts.length == 2) {
+      var method = methodParts[1]
+
+      $("#" + hash).livequery(function() {
+        var that = this
+        $(this).parent().find(".raml-console-tab-" + method).trigger('click')
+
+        waitForElem('request-documentation', 20000, function () {
+          that.scrollIntoView()
+        })
+
+      })
+
+    }
+  }
 }(jQuery));

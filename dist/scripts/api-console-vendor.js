@@ -5178,11 +5178,11 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
       '-', '?', ':', ',', '[', ']', '{', '}',
       '#', '&', '*', '!', '|', '>', '\'', '"',
       '%', '@', '`'.
-    
+
     It may also start with
       '-', '?', ':'
     if it is followed by a non-space character.
-    
+
     Note that we limit the last rule to the block context (except the '-'
     character) because we want the flow context to be space independent.
     */
@@ -5201,7 +5201,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
     The byte order mark is stripped if it's the first character in the stream.
     We do not yet support BOM inside the stream as the specification requires.
     Any such mark will be considered as a part of the document.
-    
+
     TODO: We need to make tab handling rules more sane.  A good rule is
       Tabs cannot precede tokens BLOCK-SEQUENCE-START, BLOCK-MAPPING-START,
       BLOCK-END, KEY (block context), VALUE (block context), BLOCK-ENTRY
@@ -9205,7 +9205,7 @@ http.request = function (params, cb) {
     if (!params.host && params.hostname) {
         params.host = params.hostname;
     }
-    
+
     if (!params.scheme) params.scheme = window.location.protocol.split(':')[0];
     if (!params.host) {
         params.host = window.location.hostname || window.location.host;
@@ -9217,7 +9217,7 @@ http.request = function (params, cb) {
         params.host = params.host.split(':')[0];
     }
     if (!params.port) params.port = params.scheme == 'https' ? 443 : 80;
-    
+
     var req = new Request(new xhrHttp, params);
     if (cb) req.on('response', cb);
     return req;
@@ -9280,22 +9280,22 @@ var Request = module.exports = function (xhr, params) {
     self.writable = true;
     self.xhr = xhr;
     self.body = [];
-    
+
     self.uri = (params.scheme || 'http') + '://'
         + params.host
         + (params.port ? ':' + params.port : '')
         + (params.path || '/')
     ;
-    
+
     try { xhr.withCredentials = true }
     catch (e) {}
-    
+
     xhr.open(
         params.method || 'GET',
         self.uri,
         true
     );
-    
+
     if (params.headers) {
         var keys = objectKeys(params.headers);
         for (var i = 0; i < keys.length; i++) {
@@ -9310,7 +9310,7 @@ var Request = module.exports = function (xhr, params) {
             else xhr.setRequestHeader(key, value)
         }
     }
-    
+
     if (params.auth) {
         //basic auth
         this.setHeader('Authorization', 'Basic ' + Base64.btoa(params.auth));
@@ -9320,11 +9320,11 @@ var Request = module.exports = function (xhr, params) {
     res.on('close', function () {
         self.emit('close');
     });
-    
+
     res.on('ready', function () {
         self.emit('response', res);
     });
-    
+
     xhr.onreadystatechange = function () {
         res.handle(xhr);
     };
@@ -9374,7 +9374,7 @@ Request.prototype.end = function (s) {
         }
         var body = new(this.body[0].constructor)(len);
         var k = 0;
-        
+
         for (var i = 0; i < this.body.length; i++) {
             var b = this.body[i];
             for (var j = 0; j < b.length; j++) {
@@ -9462,13 +9462,13 @@ function parseHeaders (res) {
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (line === '') continue;
-        
+
         var m = line.match(/^([^:]+):\s*(.*)/);
         if (m) {
             var key = m[1].toLowerCase(), value = m[2];
-            
+
             if (headers[key] !== undefined) {
-            
+
                 if (isArray(headers[key])) {
                     headers[key].push(value);
                 }
@@ -9507,7 +9507,7 @@ Response.prototype.handle = function (res) {
         catch (err) {
             capable.status2 = false;
         }
-        
+
         if (capable.status2) {
             this.emit('ready');
         }
@@ -9521,7 +9521,7 @@ Response.prototype.handle = function (res) {
             }
         }
         catch (err) {}
-        
+
         try {
             this._emitData(res);
         }
@@ -9535,12 +9535,12 @@ Response.prototype.handle = function (res) {
             this.emit('ready');
         }
         this._emitData(res);
-        
+
         if (res.error) {
             this.emit('error', this.getResponse(res));
         }
         else this.emit('end');
-        
+
         this.emit('close');
     }
 };
@@ -13254,7 +13254,7 @@ Writable.prototype.write = function(chunk, encoding, cb) {
     chunk = new Buffer(chunk);
   if (isArrayBuffer(chunk) && typeof Uint8Array !== 'undefined')
     chunk = new Buffer(new Uint8Array(chunk));
-  
+
   if (Buffer.isBuffer(chunk))
     encoding = 'buffer';
   else if (!encoding)
@@ -17962,15 +17962,15 @@ var objectHelper = (function () {
     function isString (value) {
         return Object.prototype.toString.apply(value) === '[object String]';
     }
-    
+
     function isNumber (value) {
         return Object.prototype.toString.apply(value) === '[object Number]';
     }
-    
+
     function isBoolean (value) {
         return Object.prototype.toString.apply(value) === '[object Boolean]';
     }
-    
+
     function join (arr, separator) {
         var
             result = '',
@@ -19429,12 +19429,12 @@ return{aliases:["styl"],cI:!1,i:"("+l.join("|")+")",k:"if else for in",c:[e.QSM,
 }),hljs.registerLanguage("xl",function(e){var t="ObjectLoader Animate MovieCredits Slides Filters Shading Materials LensFlare Mapping VLCAudioVideo StereoDecoder PointCloud NetworkAccess RemoteControl RegExp ChromaKey Snowfall NodeJS Speech Charts",r={keyword:"if then else do while until for loop import with is as where when by data constant",literal:"true false nil",type:"integer real text name boolean symbol infix prefix postfix block tree",built_in:"in mod rem and or xor not abs sign floor ceil sqrt sin cos tan asin acos atan exp expm1 log log2 log10 log1p pi at",module:t,id:"text_length text_range text_find text_replace contains page slide basic_slide title_slide title subtitle fade_in fade_out fade_at clear_color color line_color line_width texture_wrap texture_transform texture scale_?x scale_?y scale_?z? translate_?x translate_?y translate_?z? rotate_?x rotate_?y rotate_?z? rectangle circle ellipse sphere path line_to move_to quad_to curve_to theme background contents locally time mouse_?x mouse_?y mouse_buttons"},a={cN:"constant",b:"[A-Z][A-Z_0-9]+",r:0},i={cN:"variable",b:"([A-Z][a-z_0-9]+)+",r:0},n={cN:"id",b:"[a-z][a-z_0-9]+",r:0},o={cN:"string",b:'"',e:'"',i:"\\n"},s={cN:"string",b:"'",e:"'",i:"\\n"},l={cN:"string",b:"<<",e:">>"},c={cN:"number",b:"[0-9]+#[0-9A-Z_]+(\\.[0-9-A-Z_]+)?#?([Ee][+-]?[0-9]+)?",r:10},p={cN:"import",bK:"import",e:"$",k:{keyword:"import",module:t},r:0,c:[o]},d={cN:"function",b:"[a-z].*->"};return{aliases:["tao"],l:/[a-zA-Z][a-zA-Z0-9_?]*/,k:r,c:[e.CLCM,e.CBCM,o,s,l,d,p,a,i,n,c,e.NM]}});
 /**
 * vkBeautify - javascript plugin to pretty-print or minify text in XML, JSON, CSS and SQL formats.
-*  
-* Version - 0.99.00.beta 
+*
+* Version - 0.99.00.beta
 * Copyright (c) 2012 Vadim Kiryukhin
 * vkiryukhin @ gmail.com
 * http://www.eslinstructor.net/vkbeautify/
-* 
+*
 * Dual licensed under the MIT and GPL licenses:
 *   http://www.opensource.org/licenses/mit-license.php
 *   http://www.gnu.org/licenses/gpl.html
@@ -19479,7 +19479,7 @@ return{aliases:["styl"],cI:!1,i:"("+l.join("|")+")",k:"if else for in",c:[e.QSM,
 function createShiftArr(step) {
 
 	var space = '    ';
-	
+
 	if ( isNaN(parseInt(step)) ) {  // argument is string
 		space = step;
 	} else { // argument is integer
@@ -19501,7 +19501,7 @@ function createShiftArr(step) {
 
 	var shift = ['\n']; // array of shifts
 	for(ix=0;ix<100;ix++){
-		shift.push(shift[ix]+space); 
+		shift.push(shift[ix]+space);
 	}
 	return shift;
 }
@@ -19527,67 +19527,67 @@ vkbeautify.prototype.xml = function(text,step) {
 
 		for(ix=0;ix<len;ix++) {
 			// start comment or <![CDATA[...]]> or <!DOCTYPE //
-			if(ar[ix].search(/<!/) > -1) { 
+			if(ar[ix].search(/<!/) > -1) {
 				str += shift[deep]+ar[ix];
-				inComment = true; 
+				inComment = true;
 				// end comment  or <![CDATA[...]]> //
-				if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1 || ar[ix].search(/!DOCTYPE/) > -1 ) { 
-					inComment = false; 
+				if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1 || ar[ix].search(/!DOCTYPE/) > -1 ) {
+					inComment = false;
 				}
-			} else 
+			} else
 			// end comment  or <![CDATA[...]]> //
-			if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1) { 
+			if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1) {
 				str += ar[ix];
-				inComment = false; 
-			} else 
+				inComment = false;
+			} else
 			// <elm></elm> //
 			if( /^<\w/.exec(ar[ix-1]) && /^<\/\w/.exec(ar[ix]) &&
-				/^<[\w:\-\.\,]+/.exec(ar[ix-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) { 
+				/^<[\w:\-\.\,]+/.exec(ar[ix-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) {
 				str += ar[ix];
 				if(!inComment) deep--;
 			} else
 			 // <elm> //
 			if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) == -1 && ar[ix].search(/\/>/) == -1 ) {
 				str = !inComment ? str += shift[deep++]+ar[ix] : str += ar[ix];
-			} else 
+			} else
 			 // <elm>...</elm> //
 			if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) > -1) {
 				str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
-			} else 
+			} else
 			// </elm> //
-			if(ar[ix].search(/<\//) > -1) { 
+			if(ar[ix].search(/<\//) > -1) {
 				str = !inComment ? str += shift[--deep]+ar[ix] : str += ar[ix];
-			} else 
+			} else
 			// <elm/> //
-			if(ar[ix].search(/\/>/) > -1 ) { 
+			if(ar[ix].search(/\/>/) > -1 ) {
 				str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
-			} else 
+			} else
 			// <? xml ... ?> //
-			if(ar[ix].search(/<\?/) > -1) { 
+			if(ar[ix].search(/<\?/) > -1) {
 				str += shift[deep]+ar[ix];
-			} else 
+			} else
 			// xmlns //
-			if( ar[ix].search(/xmlns\:/) > -1  || ar[ix].search(/xmlns\=/) > -1) { 
+			if( ar[ix].search(/xmlns\:/) > -1  || ar[ix].search(/xmlns\=/) > -1) {
 				str += shift[deep]+ar[ix];
-			} 
-			
+			}
+
 			else {
 				str += ar[ix];
 			}
 		}
-		
+
 	return  (str[0] == '\n') ? str.slice(1) : str;
 }
 
 vkbeautify.prototype.json = function(text,step) {
 
 	var step = step ? step : this.step;
-	
-	if (typeof JSON === 'undefined' ) return text; 
-	
+
+	if (typeof JSON === 'undefined' ) return text;
+
 	if ( typeof text === "string" ) return JSON.stringify(JSON.parse(text), null, step);
 	if ( typeof text === "object" ) return JSON.stringify(text, null, step);
-		
+
 	return text; // text is not string nor object
 }
 
@@ -19606,16 +19606,16 @@ vkbeautify.prototype.css = function(text, step) {
 		str = '',
 		ix = 0,
 		shift = step ? createShiftArr(step) : this.shift;
-		
+
 		for(ix=0;ix<len;ix++) {
 
-			if( /\{/.exec(ar[ix]))  { 
+			if( /\{/.exec(ar[ix]))  {
 				str += shift[deep++]+ar[ix];
-			} else 
-			if( /\}/.exec(ar[ix]))  { 
+			} else
+			if( /\}/.exec(ar[ix]))  {
 				str += shift[--deep]+ar[ix];
 			} else
-			if( /\*\\/.exec(ar[ix]))  { 
+			if( /\*\\/.exec(ar[ix]))  {
 				str += shift[deep]+ar[ix];
 			}
 			else {
@@ -19645,13 +19645,13 @@ function split_sql(str, tab) {
 				.replace(/ HAVING /ig,"~::~HAVING ")
 				//.replace(/ SET /ig," SET~::~")
 				.replace(/ IN /ig," IN ")
-				
+
 				.replace(/ JOIN /ig,"~::~JOIN ")
 				.replace(/ CROSS~::~{1,}JOIN /ig,"~::~CROSS JOIN ")
 				.replace(/ INNER~::~{1,}JOIN /ig,"~::~INNER JOIN ")
 				.replace(/ LEFT~::~{1,}JOIN /ig,"~::~LEFT JOIN ")
 				.replace(/ RIGHT~::~{1,}JOIN /ig,"~::~RIGHT JOIN ")
-				
+
 				.replace(/ ON /ig,"~::~"+tab+"ON ")
 				.replace(/ OR /ig,"~::~"+tab+tab+"OR ")
 				.replace(/ ORDER\s{1,}BY/ig,"~::~ORDER BY ")
@@ -19659,21 +19659,21 @@ function split_sql(str, tab) {
 
 				.replace(/\(\s{0,}SELECT /ig,"~::~(SELECT ")
 				.replace(/\)\s{0,}SELECT /ig,")~::~SELECT ")
-				
+
 				.replace(/ THEN /ig," THEN~::~"+tab+"")
 				.replace(/ UNION /ig,"~::~UNION~::~")
 				.replace(/ USING /ig,"~::~USING ")
 				.replace(/ WHEN /ig,"~::~"+tab+"WHEN ")
 				.replace(/ WHERE /ig,"~::~WHERE ")
 				.replace(/ WITH /ig,"~::~WITH ")
-				
+
 				//.replace(/\,\s{0,}\(/ig,",~::~( ")
 				//.replace(/\,/ig,",~::~"+tab+tab+"")
 
 				.replace(/ ALL /ig," ALL ")
 				.replace(/ AS /ig," AS ")
-				.replace(/ ASC /ig," ASC ")	
-				.replace(/ DESC /ig," DESC ")	
+				.replace(/ ASC /ig," ASC ")
+				.replace(/ DESC /ig," DESC ")
 				.replace(/ DISTINCT /ig," DISTINCT ")
 				.replace(/ EXISTS /ig," EXISTS ")
 				.replace(/ NOT /ig," NOT ")
@@ -19682,7 +19682,7 @@ function split_sql(str, tab) {
 				.replace(/\s{0,}SELECT /ig,"SELECT ")
 				.replace(/\s{0,}UPDATE /ig,"UPDATE ")
 				.replace(/ SET /ig," SET ")
-							
+
 				.replace(/~::~{1,}/g,"~::~")
 				.split('~::~');
 }
@@ -19710,36 +19710,36 @@ vkbeautify.prototype.sql = function(text,step) {
 				ar = ar.concat(split_sql(ar_by_quote[ix], tab) );
 			}
 		}
-		
+
 		len = ar.length;
 		for(ix=0;ix<len;ix++) {
-			
+
 			parenthesisLevel = isSubquery(ar[ix], parenthesisLevel);
-			
-			if( /\s{0,}\s{0,}SELECT\s{0,}/.exec(ar[ix]))  { 
+
+			if( /\s{0,}\s{0,}SELECT\s{0,}/.exec(ar[ix]))  {
 				ar[ix] = ar[ix].replace(/\,/g,",\n"+tab+tab+"")
-			} 
-			
-			if( /\s{0,}\s{0,}SET\s{0,}/.exec(ar[ix]))  { 
+			}
+
+			if( /\s{0,}\s{0,}SET\s{0,}/.exec(ar[ix]))  {
 				ar[ix] = ar[ix].replace(/\,/g,",\n"+tab+tab+"")
-			} 
-			
-			if( /\s{0,}\(\s{0,}SELECT\s{0,}/.exec(ar[ix]))  { 
+			}
+
+			if( /\s{0,}\(\s{0,}SELECT\s{0,}/.exec(ar[ix]))  {
 				deep++;
 				str += shift[deep]+ar[ix];
-			} else 
-			if( /\'/.exec(ar[ix]) )  { 
+			} else
+			if( /\'/.exec(ar[ix]) )  {
 				if(parenthesisLevel<1 && deep) {
 					deep--;
 				}
 				str += ar[ix];
 			}
-			else  { 
+			else  {
 				str += shift[deep]+ar[ix];
 				if(parenthesisLevel<1 && deep) {
 					deep--;
 				}
-			} 
+			}
 			var junk = 0;
 		}
 
@@ -19753,19 +19753,19 @@ vkbeautify.prototype.xmlmin = function(text, preserveComments) {
 	var str = preserveComments ? text
 							   : text.replace(/\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/g,"")
 									 .replace(/[ \r\n\t]{1,}xmlns/g, ' xmlns');
-	return  str.replace(/>\s{0,}</g,"><"); 
+	return  str.replace(/>\s{0,}</g,"><");
 }
 
 vkbeautify.prototype.jsonmin = function(text) {
 
-	if (typeof JSON === 'undefined' ) return text; 
-	
-	return JSON.stringify(JSON.parse(text), null, 0); 
-				
+	if (typeof JSON === 'undefined' ) return text;
+
+	return JSON.stringify(JSON.parse(text), null, 0);
+
 }
 
 vkbeautify.prototype.cssmin = function(text, preserveComments) {
-	
+
 	var str = preserveComments ? text
 							   : text.replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\//g,"") ;
 
@@ -62454,9 +62454,14 @@ angular.module('ui.codemirror', []).constant('uiCodemirrorConfig', {}).directive
               var newValue = instance.getValue();
               if (newValue !== ngModel.$viewValue) {
                 // Changes to the model from a callback need to be wrapped in $apply or angular will not notice them
-                scope.$apply(function () {
-                  ngModel.$setViewValue(newValue);
-                });
+
+                // bug -> apply in apply https://docs.angularjs.org/error/$rootScope/inprog?p0=$digest
+                setTimeout(function () {
+                  scope.$apply(function () {
+                    ngModel.$setViewValue(newValue);
+                  });
+                }, 0)
+
               }
             });
           }
@@ -62511,7 +62516,7 @@ angular.module('ui.codemirror', []).constant('uiCodemirrorConfig', {}).directive
       this.defaults = opts;
     };
 
-    self.$get = ['$window',function ($window) { 
+    self.$get = ['$window',function ($window) {
       var m = $window.marked;
 
       self.setOptions = m.setOptions;
@@ -62541,9 +62546,9 @@ angular.module('ui.codemirror', []).constant('uiCodemirrorConfig', {}).directive
         function set(val) {
         	element.html(marked(val || '', scope.opts || null));
         }
-        
+
         if (attrs.marked) {
-          scope.$watch('marked', set);        	
+          scope.$watch('marked', set);
         }
 
       }
@@ -62766,7 +62771,7 @@ dirLanguageFactory = function (dirName) {
       link: function (scope, iElm, iAttrs, ctrl) {
         if (!ctrl) {
           return;
-        }      
+        }
         iAttrs.$observe(dirName, function (lang) {
           if (angular.isDefined(lang)) {
             ctrl.setLanguage(lang);
@@ -68003,7 +68008,7 @@ function registerDefaultHelpers(instance) {
           if(context.hasOwnProperty(key)) {
             // We're running the iterations one step out of sync so we can detect
             // the last iteration without have to scan the object twice and create
-            // an itermediate keys array. 
+            // an itermediate keys array.
             if (priorKey) {
               execIteration(priorKey, i-1);
             }
