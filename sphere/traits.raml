@@ -79,6 +79,8 @@
     responses:
       409:
         description: |
+          ## Conflict
+
           A 409 indicates that the resource targeted by the request (with the intention to modify or delete the resource),
           was modified since the last time the client has requested it. As a reaction, the client will usually want to request
           the newest version of the resource to see what has changed and may then decide to apply the same or other changes
