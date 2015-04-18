@@ -371,7 +371,7 @@
       restrict: 'E',
       templateUrl: 'directives/method-list.tpl.html',
       replace: true,
-      controller: function($scope, $location, $anchorScroll, $rootScope) {
+      controller: function($scope, $location, $anchorScroll, $rootScope, $timeout) {
         function loadExamples () {
           $scope.context.uriParameters.reset($scope.resource.uriParametersForDocumentation);
           $scope.context.queryParameters.reset($scope.methodInfo.queryParameters);
@@ -477,7 +477,6 @@
           $scope.showMoreEnable           = true;
           $scope.showSpinner              = false;
           $scope.securitySchemes          = $scope.methodInfo.securitySchemes();
-          $scope.credentials              = {};
           $scope.traits                   = $scope.readTraits($scope.methodInfo.is);
           $scope.context.customParameters = { headers: [], queryParameters: [] };
           $scope.currentBodySelected      = methodInfo.body ? Object.keys(methodInfo.body)[0] : 'application/json';
@@ -523,21 +522,26 @@
 
           if (!$resource.hasClass('raml-console-is-active')) {
             var hash = $scope.generateId($scope.resource.pathSegments, methodInfo.method);
-
+            $scope.credentials = {};
             $rootScope.$broadcast('openMethod', $scope);
             jQuery($this).addClass('raml-console-is-active');
             $scope.showPanel = true;
 
             $location.hash(hash);
             $anchorScroll();
+
+            if (window.tabOpened) window.tabOpened($scope)
           } else if (jQuery($this).hasClass('raml-console-is-active')) {
             $scope.showPanel = false;
             $inactiveElements.removeClass('raml-console-is-active');
             $scope.traits = null;
             $scope.methodInfo = {};
           } else {
+            $location.hash($scope.generateId($scope.resource.pathSegments, methodInfo.method));
             jQuery($this).addClass('raml-console-is-active');
             jQuery($this).siblings('.raml-console-tab').removeClass('raml-console-is-active');
+
+            if (window.tabChanged) window.tabChanged($scope)
           }
         };
       }
@@ -814,8 +818,10 @@
           }
         };
 
-        if (document.location.search.indexOf('?raml=') !== -1) {
-          $scope.ramlUrl = document.location.search.replace('?raml=', '');
+        var queryString = URI(location).search(true)
+
+        if (queryString['raml']) {
+          $scope.ramlUrl = queryString['raml'];
           $scope.loadFromUrl();
         }
       }
@@ -1135,6 +1141,7 @@
           var defaultSchemaKey = Object.keys($scope.securitySchemes).sort()[0];
           var defaultSchema    = $scope.securitySchemes[defaultSchemaKey];
 
+          $scope.responseDetails   = false;
           $scope.currentSchemeType = defaultSchema.type;
           $scope.currentScheme     = defaultSchema.id;
           $scope.currentProtocol   = $scope.raml.protocols[0];
@@ -1923,7 +1930,7 @@
         var authorizationGrants = $scope.$parent.securitySchemes.oauth_2_0.settings.authorizationGrants;
 
         $scope.scopes = $scope.$parent.securitySchemes.oauth_2_0.settings.scopes;
-        $scope.credentials.scopes = {};
+        //$scope.credentials.scopes = {};
 
         if (authorizationGrants) {
           $scope.grants = $scope.grants.filter(function (el) {

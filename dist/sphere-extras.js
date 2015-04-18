@@ -1,8 +1,28 @@
 jQuery(function ($) {
-  window.History = {options: {html4Mode: true}};
-
   var watchedFields = ["projectKey", "clientId", "clientSecret"];
   var prefix = "credentials-";
+
+
+
+  var extract = function (prefix) {
+    var queryString = URI(window.location).search(true)
+    var queryProps = Object.keys(queryString)
+
+    var params = {}
+
+    for (var i = 0; i < queryProps.length; i++) {
+      var match = RegExp("^" + prefix + "\\.(.*)$").exec(queryProps[i]);
+
+      if (match) params[match[1]] = queryString[queryProps[i]]
+    }
+
+    return params
+  }
+
+  var params = extract("param")
+  var queryParams = extract("qparam")
+
+  console.info(params)
 
   $('.raml-console-sidebar-oauth-scopes input').livequery(function() {
     $(this).change(function() {
@@ -12,57 +32,102 @@ jQuery(function ($) {
     });
   });
 
-  $('input[name=projectKey]').livequery(function() {
-    var $scope = angular.element($(".raml-console-sidebar-oauth-scopes").get()).scope();
+  var definedScopes = function($scope) {
+    var defaultSchemaKey = Object.keys($scope.securitySchemes).sort()[0];
+    var defaultSchema    = $scope.securitySchemes[defaultSchemaKey];
 
-    var rememberFields = function (prefix, fields) {
-      fields.forEach(function (f) {
-        $('input[name=' + f + ']').on('input', function() {
-          localStorage.setItem(prefix + f, $(this).val())
-        });
-      })
-    };
+    return defaultSchema.settings.scopes
+  }
 
-    var restoreFields = function (prefix, fields) {
-      fields.forEach(function (f) {
-        var val = localStorage.getItem(prefix + f)
+  var watchers = []
 
-        if (val && val != '') {
-          var input = $('input[name=' + f + ']')
-          input.val(val)
-          input.trigger('input')
+  var setupWatch = function ($scope) {
+    watchers.push($scope.$watch(function () {return $scope.credentials.clientId}, function () {
+      localStorage.setItem(prefix + 'clientId', $scope.credentials.clientId)
+    }))
+
+    watchers.push($scope.$watch(function () {return $scope.credentials.clientSecret}, function () {
+      localStorage.setItem(prefix + 'clientSecret', $scope.credentials.clientSecret)
+    }))
+
+    watchers.push($scope.$watchCollection(function () {return $scope.context.uriParameters.values.projectKey}, function () {
+      var val = $scope.context.uriParameters.values.projectKey[0]
+
+      if (typeof val === "undefined") return
+
+      localStorage.setItem(prefix + 'projectKey', val)
+      var defScopes = definedScopes($scope)
+
+      for (var i = 0; i < defScopes.length; i++) {
+        var old = defScopes[i]
+        defScopes[i] = old.replace(/:.*$/, ":" + val).replace(/:$/, ":{projectKey}")
+
+        if (old != defScopes[i] && $scope.credentials.scopes.hasOwnProperty(old)) {
+          $scope.credentials.scopes[defScopes[i]] = $scope.credentials.scopes[old]
+          delete $scope.credentials.scopes[old]
         }
-      })
-    };
+      }
+    }))
 
-    var setupScopeUpdater = function (prefix, field) {
-      $('input[name=' + field + ']').on('input', function() {
-        var val = $(this).val();
+    watchers.push($scope.$watchCollection(function () {return $scope.credentials.scopes}, function () {
+      var defScopes = definedScopes($scope)
 
-        $scope.$apply(function() {
-          for (var i = 0; i < $scope.scopes.length; i++) {
-            $scope.scopes[i] = $scope.scopes[i].replace(/:.*$/, ":" + val)
-            $scope.scopes[i] = $scope.scopes[i].replace(/:$/, ":{projectKey}")
-          }
-        });
-      });
-    };
+      for (var i = 0; i < defScopes.length; i++) {
+        var on = !!($scope.credentials.scopes && $scope.credentials.scopes[defScopes[i]])
 
-    var restoreScopes = function () {
-      $('.raml-console-sidebar-oauth-scopes input').each(function (idx, cb) {
-        var checked = localStorage.getItem(prefix + "sphere-scopes-" + idx) == 'true'
+        localStorage.setItem(prefix + "sphere-scopes-" + i, on)
+      }
+    }))
+  }
 
-        if (checked) {
-          $(cb).trigger('click') // robot clicking checkboxes :)
-        }
-      })
-    };
+  var restore = function ($scope) {
+    $scope.credentials.clientId = localStorage.getItem(prefix + 'clientId')
+    $scope.credentials.clientSecret = localStorage.getItem(prefix + 'clientSecret')
+    $scope.context.uriParameters.values.projectKey = [localStorage.getItem(prefix + 'projectKey')]
 
-    setupScopeUpdater(prefix, watchedFields[0])
-    restoreFields(prefix, watchedFields)
-    rememberFields(prefix, watchedFields)
-    restoreScopes();
-  });
+    var paramKeys = Object.keys(params)
+
+    for (var i = 0; i < paramKeys.length; i++) {
+      if ($scope.context.uriParameters.values[paramKeys[i]]) {
+        $scope.context.uriParameters.values[paramKeys[i]] = [params[paramKeys[i]]]
+      }
+    }
+
+    var paramKeys = Object.keys(queryParams)
+
+    for (var i = 0; i < paramKeys.length; i++) {
+      if ($scope.context.queryParameters.values[paramKeys[i]]) {
+        $scope.context.queryParameters.values[paramKeys[i]] = [queryParams[paramKeys[i]]]
+      }
+    }
+
+    var defScopes = definedScopes($scope)
+
+    $scope.credentials.scopes = {}
+
+    for (var i = 0; i < defScopes.length; i++) {
+      $scope.credentials.scopes[defScopes[i]] = localStorage.getItem(prefix + "sphere-scopes-" + i) == "true"
+    }
+  }
+
+  var cleanupWatchers  = function () {
+    watchers.forEach(function (w) {w()})
+    watchers = []
+  }
+
+  window.tabOpened = function ($scope) {
+    cleanupWatchers()
+
+    restore($scope)
+    setupWatch($scope)
+  }
+
+  window.tabChanged = function ($scope) {
+    cleanupWatchers()
+
+    restore($scope)
+    setupWatch($scope)
+  }
 
   var hash = window.location.hash.replace(/#+/, "").replace(/^request_/, "")
 
