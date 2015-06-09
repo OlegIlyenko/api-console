@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
 
-  "title": "Categories List",
+  "title": "Customers List",
   "type": "object",
 
   "required": ["offset", "count", "total", "results"],
@@ -19,7 +19,7 @@
     "results": {
       "type": "array",
       "items": {
-        "$ref": "category.schema.json"
+        "$ref": "customer.schema.json"
       }
     }
   }
