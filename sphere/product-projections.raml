@@ -7,7 +7,7 @@ get:
     staged:
       type: boolean
       description: Whether to query for the current or staged projections.
-      required: false  
+      required: false
   is:
     - query:
         whereExample: slug(en = "long-sleeves")
@@ -20,7 +20,7 @@ get:
       body:
         application/json:
           example: !include examples/product-projections.example.json
-          schema: !include schemas/product-projections.schema.json
+          schema: !include inlined/product-projections.schema.json
 /{ID}:
   type: base
   displayName: Product Projection
@@ -30,11 +30,11 @@ get:
       staged:
         type: boolean
         description: Whether to query for the current or staged projections.
-        required: false  
+        required: false
     securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}", "view_products:{projectKey}"]}]
     responses:
       200:
         body:
           application/json:
             example: !include examples/product-projection.example.json
-            schema: !include schemas/product-projection.schema.json
+            schema: !include inlined/product-projection.schema.json

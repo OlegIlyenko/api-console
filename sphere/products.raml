@@ -2,7 +2,7 @@ type: base
 displayName: Products
 description: Products are the sellable goods in an e-commerce project on SPHERE.IO. This document explains some design concepts of products on SPHERE.IO and describes the available HTTP APIs for working with them.
 get:
-  description: Query Product 
+  description: Query Product
   is:
     - query:
         whereExample: masterData(current (name = "jeans"))
@@ -15,20 +15,20 @@ get:
       body:
         application/json:
           example: !include examples/products.example.json
-          schema: !include schemas/products.schema.json
+          schema: !include inlined/products.schema.json
 post:
   description: Create a Product
   securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}", "manage_products:{projectKey}"]}]
   body:
     application/json:
       example: !include examples/product-create.example.json
-      schema: !include schemas/product-create.schema.json
+      schema: !include inlined/product-create.schema.json
   responses:
     201:
       body:
         application/json:
           example: !include examples/product.example.json
-          schema: !include schemas/product.schema.json
+          schema: !include inlined/product.schema.json
 /{ID}:
   type: base
   displayName: Product
@@ -40,7 +40,7 @@ post:
         body:
           application/json:
             example: !include examples/product.example.json
-            schema: !include schemas/product.schema.json
+            schema: !include inlined/product.schema.json
   post:
     description: Update a Product
     is:
@@ -49,18 +49,18 @@ post:
     body:
       application/json:
         example: !include examples/product-update.example.json
-        schema: !include schemas/product-update.schema.json
+        schema: !include inlined/product-update.schema.json
     responses:
       200:
         body:
           application/json:
             example: !include examples/product.example.json
-            schema: !include schemas/product.schema.json
+            schema: !include inlined/product.schema.json
       400:
         body:
           application/json:
             example: !include examples/error.example.json
-            schema: !include schemas/product-update-error.schema.json
+            schema: !include inlined/product-update-error.schema.json
 
 
   delete:
@@ -74,7 +74,7 @@ post:
         body:
           application/json:
             example: !include examples/product.example.json
-            schema: !include schemas/product.schema.json
+            schema: !include inlined/product.schema.json
 /{ID}/images:
   type: base
   displayName: Upload a product image
@@ -88,4 +88,4 @@ post:
       200:
         body:
           example: !include examples/product.example.json
-          schema: !include schemas/product.schema.json
+          schema: !include inlined/product.schema.json

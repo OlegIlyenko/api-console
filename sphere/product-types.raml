@@ -15,20 +15,20 @@ get:
       body:
         application/json:
           example: !include examples/product-types.example.json
-          schema: !include schemas/product-types.schema.json
+          schema: !include inlined/product-types.schema.json
 post:
   description: Create a Product Type
   securedBy: [oauth_2_0: {scopes: ["manage_project:{projectKey}", "manage_products:{projectKey}"]}]
   body:
     application/json:
       example: !include examples/product-type-create.example.json
-      schema: !include schemas/product-type-create.schema.json
+      schema: !include inlined/product-type-create.schema.json
   responses:
     201:
       body:
         application/json:
           example: !include examples/product-type.example.json
-          schema: !include schemas/product-type.schema.json
+          schema: !include inlined/product-type.schema.json
 /{ID}:
   type: base
   displayName: Product Type
@@ -40,7 +40,7 @@ post:
         body:
           application/json:
             example: !include examples/product-type.example.json
-            schema: !include schemas/product-type.schema.json
+            schema: !include inlined/product-type.schema.json
   post:
     description: Update a Product Type
     is:
@@ -49,13 +49,13 @@ post:
     body:
       application/json:
         example: !include examples/product-type-update.example.json
-        schema: !include schemas/product-type-update.schema.json
+        schema: !include inlined/product-type-update.schema.json
     responses:
       200:
         body:
           application/json:
             example: !include examples/product-type.example.json
-            schema: !include schemas/product-type.schema.json
+            schema: !include inlined/product-type.schema.json
   delete:
     description: Delete a Product Type
     is:
@@ -67,4 +67,4 @@ post:
         body:
           application/json:
             example: !include examples/product-type.example.json
-            schema: !include schemas/product-type.schema.json
+            schema: !include inlined/product-type.schema.json

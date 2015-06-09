@@ -327,7 +327,7 @@
 
               var schema = code ? $scope.responseInfo[code][$scope.responseInfo[code].currentType].schema : $scope.methodInfo.body[$scope.currentBodySelected].schema
 
-              docson.doc($docson, schema, undefined, "/sphere/schemas/");
+              docson.doc($docson, schema, undefined, "/sphere/inlined/");
               //$docson.velocity('slideDown');
             })
           } else {
