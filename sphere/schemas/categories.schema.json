@@ -8,16 +8,13 @@
 
   "properties": {
     "offset": {
-      "type": "number",
-      "description": "Number of results skipped"
+      "$ref": "offset.schema.json"
     },
     "count": {
-      "type": "number",
-      "description": "Number of results in this page"
+      "$ref": "count.schema.json"
     },
     "total": {
-      "type": "number",
-      "description": "Total number of matching results"
+      "$ref": "total.schema.json"
     },
     "results": {
       "type": "array",
